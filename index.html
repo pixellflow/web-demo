@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pixellflow — Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand: #901466;
+      --brand-light: #b01a80;
+      --gold: #f0d343;
+      --muted: #716c69;
+      --dark: #0e050b;
+      --surface: #180b14;
+      --surface2: #22102a;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── BG MESH ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 15% 20%, rgba(144,20,102,0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 85% 75%, rgba(240,211,67,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 50% 100%, rgba(144,20,102,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ── NOISE GRAIN ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: 0.5;
+    }
+
+    /* ── FLOATING DOTS ── */
+    .dots { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .dot {
+      position: absolute; border-radius: 50%;
+      animation: floatDot linear infinite;
+    }
+    .dot:nth-child(1)  { width:4px; height:4px; background:var(--gold);   left:12%;  top:80%; opacity:.6; animation-duration:14s; animation-delay:0s; }
+    .dot:nth-child(2)  { width:3px; height:3px; background:var(--brand);  left:28%;  top:90%; opacity:.4; animation-duration:18s; animation-delay:2s; }
+    .dot:nth-child(3)  { width:5px; height:5px; background:var(--gold);   left:65%;  top:85%; opacity:.5; animation-duration:12s; animation-delay:4s; }
+    .dot:nth-child(4)  { width:3px; height:3px; background:#fff;          left:80%;  top:75%; opacity:.2; animation-duration:16s; animation-delay:1s; }
+    .dot:nth-child(5)  { width:4px; height:4px; background:var(--brand);  left:45%;  top:95%; opacity:.4; animation-duration:20s; animation-delay:6s; }
+    .dot:nth-child(6)  { width:2px; height:2px; background:var(--gold);   left:90%;  top:88%; opacity:.5; animation-duration:10s; animation-delay:3s; }
+    @keyframes floatDot {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.8; }
+      100% { transform: translateY(-110vh) translateX(30px); opacity: 0; }
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      position: relative; z-index: 2;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    /* ── LOGO SVG ── */
+    .logo-wrap {
+      margin-bottom: 40px;
+      animation: fadeUp 0.9s ease both;
+    }
+    .logo-svg { width: 220px; height: auto; }
+
+    /* ── DIVIDER LINE ── */
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 36px;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    /* ── HEADLINE ── */
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+    .headline span {
+      background: linear-gradient(135deg, var(--brand-light), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── SUB TEXT ── */
+    .subtext {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.7;
+      margin: 0 auto 44px;
+      animation: fadeUp 0.9s 0.45s ease both;
+    }
+    .subtext strong {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+    }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(144,20,102,0.18);
+      border: 1px solid rgba(144,20,102,0.4);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 48px;
+      animation: fadeUp 0.9s 0.15s ease both;
+    }
+    .badge-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.7; }
+    }
+
+    /* ── CTA BUTTON ── */
+    .cta-wrap {
+      animation: fadeUp 0.9s 0.6s ease both;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 34px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-light));
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border-radius: 50px;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 0 30px rgba(144,20,102,0.4);
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(240,211,67,0.15), transparent);
+      opacity: 0; transition: opacity 0.25s ease;
+    }
+    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(144,20,102,0.55); }
+    .cta-btn:hover::before { opacity: 1; }
+    .cta-btn svg { width: 16px; height: 16px; fill: #fff; }
+
+    /* ── FOOTER ── */
+    .footer {
+      position: relative; z-index: 2;
+      padding: 20px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.04em;
+      animation: fadeUp 0.9s 0.8s ease both;
+    }
+    .footer a { color: rgba(240,211,67,0.5); text-decoration: none; }
+    .footer a:hover { color: var(--gold); }
+
+    /* ── DECORATIVE RING ── */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(144,20,102,0.15);
+      pointer-events: none; z-index: 0;
+      animation: spinRing linear infinite;
+    }
+    .ring1 { width: 520px; height: 520px; top:50%; left:50%; transform:translate(-50%,-50%); animation-duration: 40s; }
+    .ring2 { width: 700px; height: 700px; top:50%; left:50%; transform:translate(-50%,-50%); border-color: rgba(240,211,67,0.07); animation-duration: 60s; animation-direction: reverse; }
+    @keyframes spinRing {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(360deg); }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .ring1, .ring2 { display: none; }
+      .logo-svg { width: 170px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- floating dots -->
+  <div class="dots">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+tho
+  <!-- decorative rings -->
+  <div class="ring ring1"></div>
+  <div class="ring ring2"></div>
+
+  <div class="wrapper">
+
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <img src="3.png" alt="Pixellflow Logo" class="logo-svg">
+    </div>
+
+    <!-- STATUS BADGE -->
+    <div class="badge">
+      <div class="badge-dot"></div>
+      Under Maintenance
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- HEADLINE -->
+    <h1 class="headline">
+      Something <span>Exciting</span><br/>is Coming
+    </h1>
+
+    <!-- SUBTEXT -->
+    <p class="subtext">
+      We're working hard on the <strong>new version of Pixellflow</strong>.<br/>
+      Bigger. Better. Bolder. We'll be back very soon —<br/>
+      <strong>stay tuned!</strong>
+    </p>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <a href="https://linktr.ee/pixellflow" target="_blank" rel="noopener" class="cta-btn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 3L16.293 6.293 12 10.586 13.414 12 17.707 7.707 21 11V3H13ZM11 13.414L6.707 17.707 3 14V22H11L7.707 18.707 12 14.414 11 13.414Z"/>
+        </svg>
+        Visit Our Platforms
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 Pixellflow. All rights reserved. &nbsp;|&nbsp;
+    <a href="https://linktr.ee/pixellflow" target="_blank">pixellflow</a>
+  </footer>
+
+</body>
+</html>
